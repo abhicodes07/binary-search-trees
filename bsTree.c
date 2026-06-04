@@ -147,7 +147,7 @@ void *bsTreeDelete(bsTree *bst, bsNode *node, int keep) {
       bst->min = bsTreeSuccessor(bst, target);
 #endif /* ifdef BST_MIN */
   } else {
-    target = bsTreeSuccessor(bst, target);
+    target = bsTreeSuccessor(bst, node);
 
     /* swap data */
     node->data = target->data;
