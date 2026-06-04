@@ -39,8 +39,8 @@ int compareFunc(const void *d1, const void *d2) {
 void destroyFunc(void *d) {
   myData *p;
   assert(d != NULL);
-  p = (myData *)p;
-  printf("%d", p->key);
+  p = (myData *)d;
+  free(p);
 }
 
 /* print data */

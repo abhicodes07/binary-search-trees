@@ -45,12 +45,12 @@ void bsTreeDestroy(bsTree *bst) {
 }
 
 /* find node */
-bsNode *bsTreeFindNode(bsTree *bst, void *data) {
+bsNode *bsTreeFind(bsTree *bst, void *data) {
   bsNode *temp;
   temp = BST_FIRST(bst);
 
   while (temp != NULL) {
-    int cmp = bst->compare(temp->data, data);
+    int cmp = bst->compare(data, temp->data);
     if (cmp == 0)
       return temp;
     temp = cmp < 0 ? temp->left : temp->right;
@@ -66,7 +66,7 @@ bsNode *bsTreeInsert(bsTree *bst, void *data) {
   current = BST_FIRST(bst);
 
   while (current != NULL) {
-    int cmp = bst->compare(current->data, data);
+    int cmp = bst->compare(data, current->data);
 
     /* if duplicates are allowed then update the data and return */
 #ifndef BST_DUP
@@ -91,15 +91,14 @@ bsNode *bsTreeInsert(bsTree *bst, void *data) {
   current->left = current->right = NULL;
 
   /* update parent's pointer to newnode */
-  if (parent == BST_ROOT(bst) ||
-      bst->compare(current->data, parent->data) < 0) {
+  if (parent == BST_ROOT(bst) || bst->compare(data, parent->data) < 0) {
     parent->left = current;
   } else {
     parent->right = current;
   }
 
 #ifdef BST_MIN
-  if (bst->min != NULL && bst->compare(bst->min->data, current->data) < 0) {
+  if (bst->min != NULL && bst->compare(current->data, bst->min->data) < 0) {
     bst->min = current;
   }
 #endif /* ifdef BST_MIN */
@@ -184,7 +183,7 @@ void bsTreePrint(bsTree *bst, void (*print_func)(void *)) {
 void print(bsTree *bst, bsNode *node, void (*print_func)(void *), int depth,
            char *label) {
   if (node != NULL) {
-    /* traverse left subtree */
+    /* traverse right subtree */
     print(bst, node->right, print_func, depth + 1, "R");
 
     /*
@@ -199,7 +198,7 @@ void print(bsTree *bst, bsNode *node, void (*print_func)(void *), int depth,
     print_func(node->data);
     printf("\n");
 
-    /* traverse rigth subtree */
+    /* traverse left subtree */
     print(bst, node->left, print_func, depth + 1, "L");
   }
 }
