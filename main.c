@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
   char a[] = {'B', 'I', 'N', 'A', 'R', 'Y', 'S', 'T', 'R', 'E', 'E'};
   int size = sizeof(a) / sizeof(a[0]);
 
+  /* insert data */
   myData *data;
   for (int i = 0; i < size; i++) {
     data = makeData(a[i]);
@@ -33,6 +34,19 @@ int main(int argc, char *argv[]) {
     bsTreePrint(bst, printCharFunc);
     printf("\n");
   }
+
+  /* delete data */
+  bsNode *node;
+  myData query;
+  query.key = 'S';
+  printf("Delete %c", query.key);
+  node = bsTreeFind(bst, &query);
+
+  if (node != NULL)
+    bsTreeDelete(bst, node, 0);
+
+  bsTreePrint(bst, printCharFunc);
+
   bsTreeDestroy(bst);
 
   return EXIT_SUCCESS;
